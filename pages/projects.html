@@ -6,7 +6,88 @@
     <title>Проекты - Портфолио студента</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../styles/styles.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 600;
+        }
+        
+        .main-content {
+            min-height: calc(100vh - 160px);
+        }
+        
+        .project-card {
+            transition: all 0.3s ease;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .project-card.hidden {
+            display: none;
+        }
+        
+        .btn-group .btn.active {
+            background-color: #0d6efd;
+            color: white;
+        }
+        
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        
+        .modal-content {
+            border-radius: 12px;
+            border: none;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border-bottom: none;
+        }
+        
+        .btn-close {
+            filter: invert(1);
+        }
+        
+        h1 {
+            color: #343a40;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        h1:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border-radius: 2px;
+        }
+    </style>
 </head>
 <body>
     <!-- Навигация -->
@@ -42,16 +123,17 @@
         <h1 class="text-center mb-5">Мои проекты</h1>
         
         <div class="text-center mb-4">
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-outline-primary active">Все</button>
-                <button type="button" class="btn btn-outline-primary">HTML</button>
-                <button type="button" class="btn btn-outline-primary">JS</button>
-                <button type="button" class="btn btn-outline-primary">React</button>
+            <div class="btn-group" role="group" id="filter-buttons">
+                <button type="button" class="btn btn-outline-primary active" data-filter="all">Все</button>
+                <button type="button" class="btn btn-outline-primary" data-filter="html">HTML</button>
+                <button type="button" class="btn btn-outline-primary" data-filter="js">JS</button>
+                <button type="button" class="btn btn-outline-primary" data-filter="react">React</button>
+                <button type="button" class="btn btn-outline-primary" data-filter="bootstrap">Bootstrap</button>
             </div>
         </div>
         
-        <div class="row">
-            <div class="col-md-6 col-lg-3 mb-4">
+        <div class="row" id="projects-container">
+            <div class="col-md-6 col-lg-3 mb-4" data-category="html">
                 <div class="card project-card h-100">
                     <div class="card-body text-center p-4">
                         <i class="fas fa-globe fa-3x mb-3 text-primary"></i>
@@ -61,7 +143,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-3 mb-4">
+            <div class="col-md-6 col-lg-3 mb-4" data-category="js">
                 <div class="card project-card h-100">
                     <div class="card-body text-center p-4">
                         <i class="fas fa-tasks fa-3x mb-3 text-primary"></i>
@@ -71,7 +153,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-3 mb-4">
+            <div class="col-md-6 col-lg-3 mb-4" data-category="react">
                 <div class="card project-card h-100">
                     <div class="card-body text-center p-4">
                         <i class="fas fa-shopping-cart fa-3x mb-3 text-primary"></i>
@@ -81,13 +163,53 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-3 mb-4">
+            <div class="col-md-6 col-lg-3 mb-4" data-category="bootstrap">
                 <div class="card project-card h-100">
                     <div class="card-body text-center p-4">
                         <i class="fas fa-palette fa-3x mb-3 text-primary"></i>
                         <h5 class="card-title">Портфолио</h5>
                         <p class="card-text">Bootstrap</p>
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal4">Подробнее</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4" data-category="html">
+                <div class="card project-card h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-blog fa-3x mb-3 text-primary"></i>
+                        <h5 class="card-title">Блог</h5>
+                        <p class="card-text">HTML, CSS</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal5">Подробнее</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4" data-category="js">
+                <div class="card project-card h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-gamepad fa-3x mb-3 text-primary"></i>
+                        <h5 class="card-title">Игра "Память"</h5>
+                        <p class="card-text">JavaScript</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal6">Подробнее</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4" data-category="react">
+                <div class="card project-card h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-weather-sunny fa-3x mb-3 text-primary"></i>
+                        <h5 class="card-title">Прогноз погоды</h5>
+                        <p class="card-text">React</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal7">Подробнее</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4" data-category="bootstrap">
+                <div class="card project-card h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-chart-bar fa-3x mb-3 text-primary"></i>
+                        <h5 class="card-title">Аналитическая панель</h5>
+                        <p class="card-text">Bootstrap</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal8">Подробнее</button>
                     </div>
                 </div>
             </div>
@@ -103,7 +225,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Полное описание проекта: создание личного сайта с использованием HTML и CSS.</p>
+                    <p>Создание личного сайта с использованием HTML и CSS. Включает разделы "Обо мне", "Портфолио" и "Контакты".</p>
                     <p><strong>Технологии:</strong> HTML5, CSS3, JavaScript</p>
                     <p><strong>Ссылки:</strong> 
                         <a href="#" class="btn btn-sm btn-outline-primary">Живая версия</a>
@@ -171,6 +293,83 @@
         </div>
     </div>
 
+    <!-- Дополнительные модальные окна -->
+    <div class="modal fade" id="projectModal5" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Блог</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Личный блог с системой комментариев и возможностью добавления новых постов через административную панель.</p>
+                    <p><strong>Технологии:</strong> HTML5, CSS3, PHP</p>
+                    <p><strong>Ссылки:</strong> 
+                        <a href="#" class="btn btn-sm btn-outline-primary">Живая версия</a>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Исходный код</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="projectModal6" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Игра "Память"</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Классическая игра на память с таймером и подсчетом очков. Игрок должен найти все пары карточек за минимальное время.</p>
+                    <p><strong>Технологии:</strong> JavaScript, CSS3, HTML5</p>
+                    <p><strong>Ссылки:</strong> 
+                        <a href="#" class="btn btn-sm btn-outline-primary">Живая версия</a>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Исходный код</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="projectModal7" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Прогноз погоды</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Приложение для просмотра прогноза погоды в любом городе мира с использованием API OpenWeatherMap.</p>
+                    <p><strong>Технологии:</strong> React, API, CSS Modules</p>
+                    <p><strong>Ссылки:</strong> 
+                        <a href="#" class="btn btn-sm btn-outline-primary">Живая версия</a>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Исходный код</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="projectModal8" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Аналитическая панель</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Панель управления с графиками и статистикой для анализа данных. Включает фильтры и экспорт данных.</p>
+                    <p><strong>Технологии:</strong> Bootstrap, Chart.js, JavaScript</p>
+                    <p><strong>Ссылки:</strong> 
+                        <a href="#" class="btn btn-sm btn-outline-primary">Живая версия</a>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Исходный код</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Футер -->
     <footer>
         <div class="container text-center">
@@ -179,5 +378,41 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('#filter-buttons .btn');
+            const projects = document.querySelectorAll('#projects-container .col-md-6');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Удаляем активный класс у всех кнопок
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Добавляем активный класс текущей кнопке
+                    this.classList.add('active');
+                    
+                    const filterValue = this.getAttribute('data-filter');
+                    
+                    // Фильтруем проекты
+                    projects.forEach(project => {
+                        if (filterValue === 'all' || project.getAttribute('data-category') === filterValue) {
+                            project.style.display = 'block';
+                            setTimeout(() => {
+                                project.style.opacity = '1';
+                                project.style.transform = 'scale(1)';
+                            }, 10);
+                        } else {
+                            project.style.opacity = '0';
+                            project.style.transform = 'scale(0.8)';
+                            setTimeout(() => {
+                                project.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 </html>
